@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/RAJINIA/tinyapp/issues"
   },
-  "homepage": "https://github.com/RAJINIA/tinyapp#readme"
+  "homepage": "https://github.com/RAJINIA/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
