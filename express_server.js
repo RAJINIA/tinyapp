@@ -6,7 +6,8 @@ app.set("view engine", "ejs");
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "9sm5xK": "http://www.google.com",
+  "3F6ipTX": "https://www.facebook.com/"
 };
 
 const bodyParser = require("body-parser");
@@ -30,6 +31,17 @@ app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
   res.send("Ok");         // Respond with 'Ok' (we will replace this)
 });
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
+});
+
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const delShort = req.params.shortURL;
+  delete urlDatabase[delShort];
+  res.redirect('/urls')
+})
 
 app.get("/", (req, res) => {
   res.send("Hello");
@@ -69,4 +81,4 @@ function generateRandomString() {
   }
   //console.log(result);
   return result.toString();
-}
+}  
