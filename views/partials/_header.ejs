@@ -18,18 +18,17 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <!-- <a class="nav-item nav-link" href="/login" >Login</a> -->
 
-        <!-- <a class="nav-item nav-link" href="/register">Register</a> -->
-        
         <% if(user) {%>
+          <p>Logged In As:<%= user.email %></p>
           <form class="d-flex" action="/logout" method="POST">
-            <p>Logged In As:<%= user.email %></p>
             <button type="submit" class="btn btn-success"
               style=" color:black; border: 0.1em solid black; height: fit-content;">Logout</button>
           </form>
   
         <% }  else {%>
+          <a class="nav-item nav-link" href="/login" >Login</a>   
+
           <a class="nav-item nav-link" href="/register">Register</a>
           <!-- <button type="submit" class="btn btn-primary mb-3 ">Register</button> -->
 

@@ -33,11 +33,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.get("/urls", (req, res) => {
+  const user_id = req.cookies['user_id'];
+  console.log("The user id is: ", user_id);
+  const user = users[req.cookies['user_id']];
+  console.log("Thje user is: ", user);
   const templateVars = { 
     urls: urlDatabase,
     // username: req.cookies["username"]
-    user: users[req.cookies.user_id]
-
+    user: users[req.cookies['user_id']]
    };
    console.log(templateVars);
   res.render("urls_index", templateVars);
@@ -94,25 +97,6 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect('/urls'); 
 });
 
-// Add Login Route
-app.get("/login", (req,res) => {
-  res.render('login');
-})
-
-app.post("/login", (req, res) => {
-  //console.log("hello" + req.body.username);
-  // res.cookie("username", req.body.username);
-  res.cookie("user", req.body.user_id);
-  res.redirect("/urls");
-});
-
-// POST for Logout
-app.post("/logout", (req, res) => {
-  console.log("logout");
-  res.clearCookie("user_id");
-  res.redirect("/urls");
-});
-
 // Create Register
 app.get("/register", (req,res) => {
   const user = users[req.cookies.user_id]
@@ -137,6 +121,38 @@ app.post("/register", (req, res) => {
   res.cookie("user_id", user_id)
   res.redirect("/urls")
 })
+
+// Add Login Route
+app.get("/login", (req,res) => {
+  const user = users[req.cookies.user_id]
+  res.render('login', {user});
+})
+
+app.post("/login", (req, res) => {
+  //console.log("hello" + req.body.username);
+  // res.cookie("username", req.body.username);
+  const email = req.body.email;
+  const password = req.body.password;
+  const user = getUserByEmail(email);
+  if (user) {
+    if (user.password === password) {
+      res.cookie("user_id", user.id);
+      res.redirect("/urls");
+    } else {
+      res.send("incorrect password");
+    }
+  } else {
+    res.send("user not found");
+  }
+  
+});
+
+// POST for Logout
+app.post("/logout", (req, res) => {
+  console.log("logout");
+  res.clearCookie("user_id");
+  res.redirect("/urls");
+});
 
 //---------------------------------------------------------------------------------------
 // app.get("/", (req, res) => {
