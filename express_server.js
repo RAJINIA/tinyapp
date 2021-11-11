@@ -14,27 +14,50 @@ const urlDatabase = {
   // "3F6ipTX": "https://www.facebook.com/"
 };
 
+//USER Database
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.get("/urls", (req, res) => {
   const templateVars = { 
     urls: urlDatabase,
-    username: req.cookies["username"]
+    // username: req.cookies["username"]
+    user: users[req.cookies.user_id]
+
    };
    console.log(templateVars);
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = {
+    // username: req.cookies["username"]
+    user: users[req.cookies.user_id]
+  }; 
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const templateVars = { 
     shortURL: req.params.shortURL, 
-    longURL: req.params.longURL
+    longURL: req.params.longURL,
+    // username: req.cookies["username"]
+    // user: users[req.cookies.user_id]
   };
   res.render("urls_show", templateVars);
 }); 
@@ -47,12 +70,11 @@ app.get("/u/:shortURL", (req, res) => {
 
 //  Create New URL
 app.post("/urls", (req, res) => {
-  const newUrl = Math.random().toString(36).substr(2, 6);
+  const newUrl = generateRandomString();
   const longURL = req.body.longURL;
   urlDatabase[newUrl] = longURL;
   res.redirect('/urls')
 });
-
 
 // Delete URL
 app.post("/urls/:shortURL/delete", (req, res) => {
@@ -68,34 +90,62 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.id;
   const longURL = req.body.newLongUrl;
   urlDatabase[shortURL] = longURL;
+  console.log(shortURL , longURL);
   res.redirect('/urls'); 
 });
 
 // Add Login Route
 app.get("/login", (req,res) => {
+  res.render('login');
 })
 
 app.post("/login", (req, res) => {
   //console.log("hello" + req.body.username);
-  res.cookie("username", req.body.username);
+  // res.cookie("username", req.body.username);
+  res.cookie("user", req.body.user_id);
   res.redirect("/urls");
-})
+});
 
 // POST for Logout
 app.post("/logout", (req, res) => {
   console.log("logout");
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
+});
+
+// Create Register
+app.get("/register", (req,res) => {
+  const user = users[req.cookies.user_id]
+  res.render('register',  {user} );
+});
+
+app.post("/register", (req, res) => {
+  // console.log('req.body:',req.body)
+  const userID = req.cookies.user_id
+  if (!req.body.email || !req.body.password) {
+    res.status(400).send("Invalid Email or Password")
+    return;
+  }
+
+  if (getUserByEmail(req.body.email)) {
+    res.status(400).send("Email already exists")
+    return
+  }
+  const user_id = generateRandomString()
+  users[user_id] = { id: user_id, email: req.body.email, password: req.body.password }
+  // console.log(users)
+  res.cookie("user_id", user_id)
+  res.redirect("/urls")
 })
 
-
-
+//---------------------------------------------------------------------------------------
 // app.get("/", (req, res) => {
 //   res.send("Hello");
 // })
 
+// TO CHECK ALL THE VALUES OF THE DATABASE
 // app.get("/urls.json", (req, res) => {
-//   res.json(urlDatabase);
+//   res.json(users);
 // })
 
 // app.get("/hello", (req, res) => {
@@ -110,22 +160,22 @@ app.post("/logout", (req, res) => {
 //  app.get("/fetch", (req, res) => {
 //   res.send(`a = ${a}`);
 //  });
-
-
-
+//----------------------------------------------------------------------------------------
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 })
 
-function generateRandomString() {
-  let random = '';
-  let result = [];
-
-  for ( let i = 0; i < 5 ; i++ ) {
-    random += Math.random().toString(36).substr(2, 6);
-    result.push(random);
-    random = '';    
+const getUserByEmail = function (email) {
+  for (let id in users) {
+    if (users[id].email === email) {
+      return users[id];
+    }
   }
-  //console.log(result);
-  return result.toString();
+  return false
+}
+
+
+function generateRandomString() {
+  let randomString = Math.random().toString(36).substr(2, 6);
+  return randomString;
 }  

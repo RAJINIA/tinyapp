@@ -4,43 +4,45 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- <collapse navbar-collapse for My URLs & Create New URL> -->
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
-      <div style="width: 25%;">
+    </div>
 
-      </div>
-      <div class="float-right" style="width: 50%; margin-right: 0; display: flex; align-items: baseline; justify-content: center; padding-top: 1em;">
+    <!-- <collapse navbar-collapse for Register & Login> -->
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <!-- <a class="nav-item nav-link" href="/login" >Login</a> -->
+
+        <!-- <a class="nav-item nav-link" href="/register">Register</a> -->
         
-          <div>
-
-            <% if (username) { %>
-              <form method="post"action="/logout" >
-                  <h6>Logged In As: TinyApp User!</h6>
-                  <div class="form-group col-4">
-                  <input class="btn border border-dark" type="submit" value="Logout">
+        <% if(user) {%>
+          <form class="d-flex" action="/logout" method="POST">
+            <p>Logged In As:<%= user.email %></p>
+            <button type="submit" class="btn btn-success"
+              style=" color:black; border: 0.1em solid black; height: fit-content;">Logout</button>
+          </form>
   
-                </div>
-              </form>
+        <% }  else {%>
+          <a class="nav-item nav-link" href="/register">Register</a>
+          <!-- <button type="submit" class="btn btn-primary mb-3 ">Register</button> -->
 
-            <% } else {%>
-              <form method="POST" action="/login">
-                <div class="row">
-                  <div class="form-group col-8" >
-                    <input class="form-control"   type="text" name="username">
-                  </div>
-                  <div class="form-group col-4">
-                    <input class="btn border border-dark" type="submit" value="Login">
-                  </div>
-                </div>
-              </form>
-              <h5>Not Logged in</h5>
-            <% } %>
-          </div>
+        <% } %>
+
       
       </div>
     </div>
+
+    <div>
+
+      
+
   </nav>
-</header> 
+</header>
+
