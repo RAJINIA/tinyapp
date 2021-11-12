@@ -42,15 +42,24 @@ const users = {
 
 
 app.get("/urls", (req, res) => {
-
+  // const user = users[req.session['user_id']];
+  // if (user) {
+  //   const templateVars = { 
+  //     urls: urlsForUser(req.session['user_id']),
+  //     "user": user
+  //    };
+  //    res.render("urls_index", templateVars);
+  // } else {
+  //   // res.redirect("/login");
+  //   res.status(400).send('Please Register/Login');
+  // }
+  
   const templateVars = { 
     urls: urlsForUser(req.session['user_id']),
-    // username: req.cookies["username"]
     user: users[req.session['user_id']]
    };
-   console.log(req.session['user_id']);
 
-   console.log(templateVars);
+  //  console.log(templateVars);
   res.render("urls_index", templateVars);
 });
 
@@ -88,7 +97,7 @@ app.get("/urls/new", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  console.log(shortURL);
+  //console.log(shortURL);
   console.log(urlDatabase);
   const templateVars = {                         
     shortURL: req.params.shortURL, 
@@ -97,18 +106,27 @@ app.get("/urls/:shortURL", (req, res) => {
     // username: req.cookies["username"]
     // user: users[req.cookies.user_id]
   };
-  res.render("urls_show", templateVars);
+  // condional to check short url with cookieid 
+  // if true do line 112
+  //else res.status(400) u are not an authorised url
+
+  if (shortURL === req.cookies.user_id) {
+    res.render("urls_show", templateVars);
+  } else {
+    res.status(400).send("Unauthorised User")
+  }
 }); 
 
 //To Edit the longurl by clicking edit button
 app.post("/urls/:shortURL", (req, res) => {
-  const longURL = req.body.longURL;
-  const userId = req.session.user_id;
-  let obj = {
-    "longURL": longURL,
-    "userId": userId
-  };
-  urlDatabase[shortURL] = obj;
+  const updatedLongURL = req.body.newLongUrl;
+  // const userId = req.session.user_id;
+  // let obj = {
+  //   "longURL": longURL,
+  //   "userId": userId
+  // };
+  urlDatabase[req.params.shortURL].longURL = updatedLongURL;
+  res.redirect('/urls');
 })
 
 // Redirect to longURL with given shortURL
@@ -249,3 +267,12 @@ const urlsForUser = function (userID) {
   }
   return obj;
 }
+
+const validateShortURLForUser = function(userId, shortUrl,urlsDB) {
+  const userURLs = urlsForUser(userId,urlsDB);
+  for (let key of Object.keys(userURLs)) {
+    if (shortUrl === key)
+      return {data : key};
+  }
+  return {data: null};
+};
