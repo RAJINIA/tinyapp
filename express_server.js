@@ -99,7 +99,7 @@ app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   //console.log(shortURL);
   console.log(urlDatabase);
-  const templateVars = {                         
+  const templateVars = {                          
     shortURL: req.params.shortURL, 
     longURL: urlDatabase[shortURL].longURL,
     user: users[req.session['user_id']]
@@ -110,7 +110,7 @@ app.get("/urls/:shortURL", (req, res) => {
   // if true do line 112
   //else res.status(400) u are not an authorised url
 
-  if (shortURL === req.cookies.user_id) {
+  if (urlDatabase[shortURL].userID === req.session.user_id) {
     res.render("urls_show", templateVars);
   } else {
     res.status(400).send("Unauthorised User")
@@ -164,24 +164,42 @@ app.get("/register", (req,res) => {
 });
 
 app.post("/register", (req, res) => {
-  // console.log('req.body:',req.body)
-  // const userID = req.cookies.user_id
-  if (!req.body.email || !req.body.password) {
-    res.status(400).send("Invalid Email or Password")
-    return;
+  
+  const {email,password} = req.body;
+  const { error} = authenticateUserInfo(email,password,users);
+  if (error) {
+    res.status(400).send(`${error}. Please try again :  <a href="/register">Register</a>`);
+  } else {
+    const id = generateRandomString();
+    const hashedPassword = bcrypt.hashSync(password, 10);
+  
+    users[id] = {"id":id,"email":email,"password":hashedPassword};
+    console.log(users[id]);
+    req.session.user_id =  id;
+    res.redirect("/urls");
   }
+  
+});
 
-  if (getUserByEmail(req.body.email)) {
-    res.status(400).send("Email already exists")
-    return
-  }
-  const user_id = generateRandomString()
-  users[user_id] = { id: user_id, email: req.body.email, password: req.body.password }
-  // console.log(users)
-  // res.cookie("user_id", user_id)
-  req.session.user_id = user_id;
-  res.redirect("/urls")
-})
+// app.post("/register", (req, res) => {
+//   // console.log('req.body:',req.body)
+//   // const userID = req.cookies.user_id
+//   if (!req.body.email || !req.body.password) {
+//     res.status(400).send("Invalid Email or Password")
+//     return;
+//   }
+
+//   if (getUserByEmail(req.body.email)) {
+//     res.status(400).send("Email already exists")
+//     return
+//   }
+//   const user_id = generateRandomString()
+//   users[user_id] = { id: user_id, email: req.body.email, password: req.body.password }
+//   // console.log(users)
+//   // res.cookie("user_id", user_id)
+//   req.session.user_id = user_id;
+//   res.redirect("/urls")
+// })
 
 // Add Login Route
 app.get("/login", (req,res) => {
@@ -190,22 +208,18 @@ app.get("/login", (req,res) => {
 })
 
 app.post("/login", (req, res) => {
-  //console.log("hello" + req.body.username);
-  // res.cookie("username", req.body.username);
-  const userEnteredEmail = req.body.email;
-  const userEnteredPassword = req.body.password;
-  const user = getUserByEmail(userEnteredEmail);
-  if (user) {
-    if (user.password === userEnteredPassword) {
-      req.session.user_id = user.id;
-      res.redirect("/urls");
-    } else {
-      res.send("incorrect password");
-    }
+  const {email,password} = req.body;
+  const { error} = userAlreadyExist(email, users);
+  if (!error) {
+    res.status(400).send(`Not an User Try again <a href ='login'>Login</a>`);
   } else {
-    res.send("user not found");
+    const user = getUserByEmail(email);
+    if (!bcrypt.compareSync(password, user.password)) {
+      res.status(400).send("Invalid Password");
+    }
+    req.session.user_id = user["id"];
+    res.redirect('/urls');
   }
-  
 });
 
 // POST for Logout
@@ -275,4 +289,29 @@ const validateShortURLForUser = function(userId, shortUrl,urlsDB) {
       return {data : key};
   }
   return {data: null};
+};
+
+const userAlreadyExist = function(email,usersDB) {
+  for (let user in usersDB) {
+    if (usersDB[user]["email"] === email)
+      return {error: "Email Exists"};
+  }
+  return {error: null};
+};
+
+
+const authenticateUserInfo = function(email , password , usersDB) {
+
+  if (!email || email.trim() === "")
+    return {"error": "Invalid Email"};
+
+  if (!password || password.trim() === "")
+    return {"error": "Invalid pasword"};
+
+  const {error} = userAlreadyExist(email, usersDB);
+
+  if (error)
+    return {"error": error};
+
+  return {"error": null};
 };
