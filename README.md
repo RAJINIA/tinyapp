@@ -8,7 +8,8 @@ TinyApp is a full stack web application built with Node and Express that allows 
 ## Dependencies
     1. bcryptjs
     2. body-parser
-    3. cookie-session
+    3. cookie-session![Document](https://user-images.githubusercontent.com/51253864/141601656-054b743f-8bd8-4551-8119-a1e5f4842c98.png)
+
     4. ejs
     5. express
 
