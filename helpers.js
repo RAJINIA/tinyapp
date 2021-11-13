@@ -15,13 +15,6 @@ const urlsForUser = (userID, urlDatabase) => {
     }
   }
   return filteredUrls;
-  // let obj = {};
-  // for (const data in urlDatabase) {
-  //   if(userID === urlDatabase[data].userID) {
-  //     obj[data] = urlDatabase[data];
-  //   }
-  // }
-  // return obj;
 };
 
 const getUserByEmail = (email, users) => {
@@ -32,15 +25,6 @@ const getUserByEmail = (email, users) => {
   }
   return false;
 };
-
-// const validateShortURLForUser = (userId, shortUrl, urlsDB) => {
-//   const userURLs = urlsForUser(userId, urlsDB);
-//   for (let key of Object.keys(userURLs)) {
-//     if (shortUrl === key)
-//       return {data : key};
-//   }
-//   return {data: null};
-// };
 
 const userAlreadyExist = (email, usersDB) => {
   for (let user in usersDB) {
