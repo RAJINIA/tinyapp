@@ -3,14 +3,9 @@
 TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).
 
 ## Final Product
-!["Localhost:8080 Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/localhost8080.png")
-!["/urls Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/urls-page.png")
-!["Register Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/:register.png")
-!["Login Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/:login.png")
-!["urls Page After Loggedin"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png")
-!["My Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/NewURLs.png")
-!["Edit Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edit%20URL.png")
-!["Edited My Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png?raw=true")
+!["Localhost:8080 Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/:login.png)
+!["Localhost:8080 Page"](docs/:login.png)
+
 
 ## Dependencies
     1. bcryptjs
