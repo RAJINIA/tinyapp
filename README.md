@@ -10,7 +10,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 !["urls Page After Loggedin"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png")
 !["My Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/NewURLs.png")
 !["Edit Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edit%20URL.png")
-!["Edited My Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png")
+!["Edited My Url Page"]("https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png?raw=true")
 
 ## Dependencies
     1. bcryptjs
