@@ -48,24 +48,23 @@ const users = {
   },
 };
 
-app.get("/", (req, res) => {
+// To Login Page
+app.get("/", (req, res) => {                  
   res.render("login", { user: null });
 });
 
+// To URL page
 app.get("/urls", (req, res) => {
   const templateVars = {
     urls: urlsForUser(req.session["user_id"], urlDatabase),
     user: users[req.session["user_id"]],
   };
-  //  console.log(templateVars);
   res.render("urls_index", templateVars);
 });
 
+//GET route to render the New URL
 app.get("/urls/new", (req, res) => {
   const newUserId = req.session.user_id;
-  console.log("users: ", users);
-  console.log(users[newUserId]);
-
   if (!users[newUserId]) {
     res.redirect("/login");
   }
@@ -75,9 +74,9 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", templateVars);
 });
 
+// Show User their Newly Created Link
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  console.log(urlDatabase);
   const templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[shortURL].longURL,
@@ -90,11 +89,14 @@ app.get("/urls/:shortURL", (req, res) => {
   }
 });
 
+// Redirect any request to "/u/:shortURL" to its LongURL
 app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL].longURL;
-  res.redirect(longURL);
+  const longURL = urlDatabase[req.params.shortURL]['longURL'];
+    res.redirect(longURL); 
 });
 
+// Request POST /urls when form is submitted generating random string(shortURL)
+//shortURL-longURL key-value pair are saved to the urlDatabase.
 app.post("/urls", (req, res) => {
   const newUrl = generateRandomString();
   const longURL = req.body.longURL;
@@ -105,45 +107,42 @@ app.post("/urls", (req, res) => {
   res.redirect("/urls");
 });
 
+// For Editting the URL
 app.post("/urls/:id", (req, res) => {
-  console.log(req.body);
-  console.log(req.params.id);
   const shortURL = req.params.id;
   const longURL = req.body.newLongUrl;
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL].longURL = longURL;
   console.log(shortURL, longURL);
   res.redirect("/urls");
 });
 
-app.post("/urls/:shortURL", (req, res) => {
-  const updatedLongURL = req.body.newLongUrl;
-  urlDatabase[req.params.shortURL].longURL = updatedLongURL;
-  res.redirect("/urls");
-});
-
+// To Delete the URL
 app.post("/urls/:shortURL/delete", (req, res) => {
   const delShort = req.params.shortURL;
   delete urlDatabase[delShort];
   res.redirect("/urls");
 });
 
+// To Login Page
 app.get("/login", (req, res) => {
   const user = users[req.session.user_id];
   res.render("login", { user });
 });
 
+// To Register Page
 app.get("/register", (req, res) => {
   const user = users[req.session.user_id];
   res.render("register", { user });
 });
 
+// Check the Email and Password to Login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const { error } = userAlreadyExist(email, users);
   if (!error) {
     res.status(400).send(`Not an User Try again <a href ='login'> Login </a>`);
   } else {
-    const user = getUserByEmail(email);
+    const user = getUserByEmail(email, users);
     if (!bcrypt.compareSync(password, user.password)) {
       res.status(400).send("Invalid Password");
     }
@@ -152,6 +151,7 @@ app.post("/login", (req, res) => {
   }
 });
 
+// Create New User or Check if the User Id already Exist
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
   const { error } = authenticateUserInfo(email, password, users);
@@ -162,14 +162,13 @@ app.post("/register", (req, res) => {
   } else {
     const id = generateRandomString();
     const hashedPassword = bcrypt.hashSync(password, 10);
-
     users[id] = { id: id, email: email, password: hashedPassword };
-    console.log(users[id]);
     req.session.user_id = id;
     res.redirect("/urls");
   }
 });
 
+// Logout 
 app.post("/logout", (req, res) => {
   req.session.user_id = null;
   res.redirect("/urls");
@@ -177,4 +176,4 @@ app.post("/logout", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
-});
+}); 
