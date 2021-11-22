@@ -6,11 +6,11 @@ TinyApp is a full stack web application built with Node and Express that allows 
 !["Localhost:8080 Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/localhost8080.png)
 !["/urls Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/urls-page.png)
 !["Register Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/:register.png)
-!["Login Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/:login.png)
-!["urls Page After Loggedin"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png)
-!["My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/NewURLs.png)
+!["Login Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Login%20Page.png)
+!["urls Page After Loggedin"](https://github.com/RAJINIA/tinyapp/blob/master/docs/LoggedIn%20Page.png)
+!["My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/MyURL%20Page.png)
 !["Edit Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Edit%20URL.png)
-!["Edited My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Edited%20Url.png?raw=true)
+!["Edited My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/MyURL%20Page.png)
 
 ## Dependencies
     1. bcryptjs
