@@ -9,7 +9,6 @@ TinyApp is a full stack web application built with Node and Express that allows 
 !["Login Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/3__Login%20Page.png)
 !["urls Page After Loggedin"](https://github.com/RAJINIA/tinyapp/blob/master/docs/4__LoggedIn%20Page.png)
 !["My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/6__MyURL%20Page.png)
-!["Edit Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/5__Edit%20URL.png)
 !["Edited My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/7__EdittedURL%20Page.png)
 
 ## Dependencies
