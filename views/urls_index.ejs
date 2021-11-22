@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TinyApp</title>
 </head>
-<%- include('partials/_header') %>
+<%- include('partials/_header') %> 
 <body>
 <% if(user) {%>
 
@@ -28,7 +28,7 @@
         <% for(let url in urls) { %>
           <tr>
             <td>
-              <a href="/urls/<%= url %>?longurl=<%= urls[url] %>"><%= url %></a>
+              <a href="http://localhost:8080/u/<%= url %>"><%= url %></a>
             </td>
             <td>
               <%= urls[url].longURL %>
