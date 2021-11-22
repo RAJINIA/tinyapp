@@ -3,14 +3,14 @@
 TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).
 
 ## Final Product
-!["Localhost:8080 Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/localhost8080.png)
-!["/urls Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/urls-page.png)
-!["Register Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/:register.png)
-!["Login Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Login%20Page.png)
-!["urls Page After Loggedin"](https://github.com/RAJINIA/tinyapp/blob/master/docs/LoggedIn%20Page.png)
-!["My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/MyURL%20Page.png)
-!["Edit Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/Edit%20URL.png)
-!["Edited My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/MyURL%20Page.png)
+!["Localhost:8080 Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/0__localhost8080.png)
+!["/urls Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/1__:urls.png)
+!["Register Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/2__:register.png)
+!["Login Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/3__Login%20Page.png)
+!["urls Page After Loggedin"](https://github.com/RAJINIA/tinyapp/blob/master/docs/4__LoggedIn%20Page.png)
+!["My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/6__MyURL%20Page.png)
+!["Edit Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/5__Edit%20URL.png)
+!["Edited My Url Page"](https://github.com/RAJINIA/tinyapp/blob/master/docs/7__EdittedURL%20Page.png)
 
 ## Dependencies
     1. bcryptjs
